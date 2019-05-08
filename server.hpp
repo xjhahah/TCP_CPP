@@ -45,9 +45,11 @@ class Sock
       bzero(&local,sizeof(local));
       local.sin_family = AF_INET;
       local.sin_port = htons(_port);
+      
       //local.sin_addr.s_addr = inet_addr(_ip.c_str());
       local.sin_addr.s_addr = htonl(INADDR_ANY);  //不用每次都输入ip 
-      if(bind(_sock,(struct sockaddr*)&local,sizeof(local))<0)
+
+      if(bind(_sock,(struct sockaddr*)&local,sizeof(local)) < 0)
       {
         cerr<<"bind error"<<endl;
         exit(3);
@@ -56,7 +58,7 @@ class Sock
     void Listen()
     {
       //监听客户端是否有链接
-      if(listen(_sock,5)<0)
+      if(listen(_sock,5) < 0)
       {
         cerr<<"listen error"<<endl;
         exit(4);
@@ -68,7 +70,7 @@ class Sock
       socklen_t len = sizeof(peer);
       int sock = accept(_sock,(struct sockaddr*)&peer,&len);
 
-      if(sock<0)
+      if(sock < 0)
       {
         cerr<<"accept error"<<endl;
         return -1;
@@ -116,7 +118,7 @@ class Server
       {
         //读取客户端信息，并回传给客户端
         ssize_t s = read(sock,buf,sizeof(buf)-1);  //s == 0 代表对方关闭连接
-        if(s>0)
+        if(s > 0)
         {
           buf[s] = 0;
           cout<<"client: "<< sock <<" echo# "<< buf <<endl;
@@ -190,7 +192,6 @@ class Server
     ~Server()
     {}
 };
-
 
 
 
