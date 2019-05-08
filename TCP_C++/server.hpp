@@ -44,7 +44,7 @@ class Sock
       local.sin_port = htons(_port);
       //local.sin_addr.s_addr = inet_addr(_ip.c_str());
       local.sin_addr.s_addr = htonl(INADDR_ANY);  //不用每次都输入ip 
-      if(bind(_sock,(struct sockaddr*)&local,sizeof(local))<0)
+      if(bind(_sock,(struct sockaddr*)&local,sizeof(local)) < 0)
       {
         cerr<<"bind error"<<endl;
         exit(3);
@@ -53,9 +53,9 @@ class Sock
     void Listen()
     {
       //监听客户端是否有链接
-      if(listen(_sock,5)<0)
+      if(listen(_sock , 5) < 0)
       {
-        cerr<<"listen error"<<endl;
+        cerr << "listen error"<< endl;
         exit(4);
       }
     }
@@ -65,10 +65,10 @@ class Sock
       socklen_t len = sizeof(peer);
       int sock = accept(_sock,(struct sockaddr*)&peer,&len);
 
-      if(sock<0)
+      if(sock < 0)
       {
         cerr<<"accept error"<<endl;
-        return -1;
+        exit(5);
       }
       return sock;
     }
@@ -105,7 +105,7 @@ class Server
         if(s>0)
         {
           buf[s] = 0;
-        cout<<"client: "<< sock <<" echo# "<< buf <<endl;
+          cout<<"client: "<< sock <<" echo# "<< buf <<endl;
           write(sock,buf,strlen(buf));
         }
         else if(s == 0)
@@ -125,18 +125,18 @@ class Server
       while(1)
       {
         int new_sock = sock.Accept();
-        if(new_sock<0)
+        if(new_sock < 0)
         {
-          cerr<<"accept error,reconnecting... "<<endl;
+          cerr << "accept error,reconnecting... "<< endl;
           continue;
         }
-        cout<<"Get a new client..."<<endl;
+        cout<< "Get a new client..." << endl;
 
         //多进程版本
         pid_t pid = fork();
-        if(pid<0)
+        if(pid < 0)
         {
-          cerr<<"fork error"<<endl;
+          cerr << "fork error"<< endl;
           break;
         }
         else if(pid == 0)

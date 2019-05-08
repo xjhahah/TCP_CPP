@@ -20,7 +20,7 @@ int main(int argc,char* argv[])
 
   //创建套接字
   int sock = socket(AF_INET,SOCK_STREAM,0);
-  if(sock<0)
+  if(sock < 0)
   {
     cerr<<"socket error"<<endl;
     exit(2);
@@ -52,7 +52,7 @@ int main(int argc,char* argv[])
     if(s>0)
     {
       buf[s]=0;
-      cout<<"Server echo# "<<buf<<endl;
+      cout<<"Server echo# "<< buf << endl;
     }
   }
   close(sock);
